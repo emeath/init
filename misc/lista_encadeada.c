@@ -1,5 +1,13 @@
 #include <stdio.h>
 
+/*
+ * Main operations
+ * a) insert at beggining
+ * b) insert at end
+ * c) remove node
+ * d) search elment
+ */
+
 struct Node {
 	int value;
 	//struct Node *next = NULL; // nao pode!
@@ -26,10 +34,13 @@ void printInfo(struct Node node) {
 	struct Node *currentNode;
 	currentNode = &node;
 
-
-	for(int i = 0; i < 3; ++i) {
-
-	printf("Node %d:\n", n);
+	if (node.next == NULL) {
+		fprintf(stderr, "do not pass the tail node as argument.\n");
+		return;
+	}
+	do {
+	printf("[Node %d]:\n", n);
+	printf("=============\n");
 	printf("value: %d\n", currentNode->value);
 	printf("& do node atual = %p\n", currentNode);
 	printf("& next node = %p\n", currentNode->next);
@@ -40,7 +51,9 @@ void printInfo(struct Node node) {
 	currentNode = currentNode->next;
 		
 	n++;
-	}
+	} while (currentNode != NULL);
+
+	printf("----------------\n\n");
 
 }
 
@@ -68,13 +81,17 @@ int main(int argc, char *argv[]) {
 	n2.next = NULL;
 
 	printf("-0-0-\n");
-	printf("h :  %p\n", &head);
+	printf("h : %p\n", &head);
 	printf("n1: %p\n", &n1);
 	printf("n2: %p\n", &n2);
 	printf("1-1-\n");
 
 	printInfo(head);
+
+	printInfo(n1);
 	
+	printInfo(n2);
+
 	return 0;
 
 }
