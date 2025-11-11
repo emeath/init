@@ -14,6 +14,27 @@ struct Node {
 	struct Node *next;
 };
 
+struct LinkedList {
+	int numberOfNodes;
+	struct Node *head;
+};
+
+// pensar:
+// struct LinkedList {
+// 	int qtyNodes;
+// 	struct Node *ptrHeadNode;
+// 	struct Node *ptrCurrentNode;
+// 	struct Node *ptrTailNode;
+// 	};
+//
+// 	acho q pode acontecer inconsistencia talvez head apontar 
+// 	p uma trilha de enderecos
+//
+// 	ptrTail pra outra e ptrCurrent pra outra...
+//
+// 	em teoria se organizar pra nao acontecer isso fica ok
+// 	mas se o usuario realmente quiser bagaunçar ai eh com ele...
+
 int addNodeOnBeggining(int value, struct Node workingLinkedList) {
 
 	struct Node newNode;
@@ -91,6 +112,26 @@ int main(int argc, char *argv[]) {
 	printInfo(n1);
 	
 	printInfo(n2);
+
+
+	struct LinkedList linkedList;
+	linkedList.numberOfNodes = 0;
+	// insert
+	linkedList.numberOfNodes++;
+	linkedList.head = &head;
+
+	// ++
+	linkedList.numberOfNodes++;
+	linkedList.head->next = &n1;
+
+	printf("%d\n", linkedList.numberOfNodes);
+
+	printf("%p\n", linkedList.head);
+	printf("%d\n", linkedList.head->value);
+
+	printf("%p\n", linkedList.head->next);
+	printf("%d\n", linkedList.head->next->value);
+
 
 	return 0;
 
