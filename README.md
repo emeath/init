@@ -1,5 +1,5 @@
 # init
 
-start: 10/25
+start .: 10/25
 
-end  : 10/26
+end ...: 10/26
