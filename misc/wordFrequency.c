@@ -4,10 +4,13 @@
 
 void copiarString(char *dest, char *src) {
     int i;
+
     for(i=0; src[i] != '\0'; ++i){
         dest[i] = src[i];
     }
+    #ifdef DEBUG
     printf("i=%d\n", i);
+    #endif
     dest[i] = '\0';
 }
 
@@ -37,9 +40,12 @@ int main()
          "banana"};
 
     int i;
+
+    #ifdef DEBUG
     for (i = 0; i < N; ++i) {
         printf("%s\n", listaDePalavras[i]);
     }
+    #endif
 
     char setPalavras[N][64];
     int sizeSet=0;
@@ -60,15 +66,15 @@ int main()
     }
 
 
+    #ifdef DEBUG
     for(i = 0 ; i < N ; ++i) {
         printf("[%d] %s\n", i, setPalavras[i]);
     }
 
-    printf("2222222222222222222\n");
-
     for(i = 0 ; i < sizeSet ; ++i) {
         printf("[%d] %s\n", i, setPalavras[i]);
     }
+    #endif
 
     struct map myMap[sizeSet];
 
@@ -85,8 +91,41 @@ int main()
         }
     }
 
+    #ifdef DEBUG
     for(i=0;i<sizeSet;++i) {
         printf("Struct -> [%d]\nPalavra: %s\nQuantidade: %d\n", i, myMap[i].palavra, myMap[i].quantidade);
+    }
+    #endif
+
+
+    // ordernar o mapa
+    struct map mapAux;
+    mapAux.quantidade = 0;
+
+    for(i=0;i<sizeSet;++i){
+        for(j=0;j<sizeSet - i - 1; ++j) {
+            if(myMap[j].quantidade < myMap[j+1].quantidade) {
+                // fazer o swap
+                //copiarString(mapAux.palavra, myMap[j+1].palavra);
+                //mapAux.quantidade = myMap[j+1].quantidade;
+                
+                mapAux = myMap[j+1];
+                myMap[j+1] = myMap[j];
+                myMap[j] = mapAux;
+                
+            }
+        }
+    }
+
+    #ifdef DEBUG
+    for(i=0;i<sizeSet;++i) {
+        printf("Struct -> [%d]\nPalavra: %s\nQuantidade: %d\n", i, myMap[i].palavra, myMap[i].quantidade);
+    }
+    #endif
+
+    printf("3 Most Frequent:\n");
+    for(i=0;i<3;++i){
+        printf("Word: %s \t Frequency: %d\n", myMap[i].palavra, myMap[i].quantidade);
     }
 
     return 0;
