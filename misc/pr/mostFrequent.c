@@ -26,6 +26,15 @@ int main() {
 	};
 
 	char set[100][32];
+
+	char *pSet = malloc(100 * 32 * sizeof(char));
+	if (pSet == NULL) {
+		fprintf(stderr,"Failed to allocate memory for pSet\n");
+		return 1;
+	}
+
+	
+
 	int flagIsPresent = 0;
 	int setIndex = 0;
 
