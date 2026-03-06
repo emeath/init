@@ -1,1 +1,24 @@
+# Ignorar executáveis sem extensão (comuns no Linux/macOS)
+# Cuidado: isso pode ignorar pastas. O '/' no final ajuda a diferenciar.
+*
+
+# Abrir exceções para o que deve ser rastreado
+!*.c
+!*.h
+!*.cpp
+!*.hpp
+!.gitignore
+!Makefile
+!README.md
+
+# Ignorar arquivos de objeto e bibliotecas (caso você use -c no gcc)
+*.o
+*.obj
+*.a
+*.so
+*.out
+
+
+
+
 *.out
