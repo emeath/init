@@ -40,16 +40,21 @@ void segundaEtapa(char *);
 void terceiraEtapa(char *);
 int isLowerCaseChar(char);
 int isUpperCaseChar(char);
+size_t calcularTamanhoString(char *texto);
 
 int main()
 {
     // bee 1024
     char a = 'b';
     printf("%c %c %d %d\n", a, a+1, a, a+1);
-    char txt[42] = {'a', 'b', 'c', '\n', '\0'};
-    printf("%s", txt);
+//    char txt[42] = {'a', 'b', 'c', '\0'};
+    char txt[64] = "Linkin Park";
+    printf("%s\n", txt);
     primeiraEtapa(txt);
-    printf("%s", txt);
+    printf("%s\n", txt);
+    segundaEtapa(txt);
+    printf("%s\n", txt);
+
     return 0;
 }
 
@@ -80,12 +85,34 @@ int isUpperCaseChar(char ch) {
 }
 
 
-void segundaEtapa(char *)
+void segundaEtapa(char *texto)
 {
-    // todo
+    // inverter string
+    char aux;
+    // calcular tamanho da string
+    size_t tamanhoString = calcularTamanhoString(texto);
+    printf(">>>%ld\n", tamanhoString);
+    size_t i;
+    for(i=0; i < tamanhoString / 2; ++i) {
+        aux = *(texto + tamanhoString - 1 - i);
+        *(texto + tamanhoString - 1 - i) = *(texto + i);
+        *(texto + i) = aux;
+    }
+    *(texto + tamanhoString) = '\0';    
 }
 
 void terceiraEtapa(char *) 
 {
     // todo
+}
+
+size_t calcularTamanhoString(char *texto)
+{
+    size_t tamanho = 0;
+    if ( '\0' == *texto) return 1;
+    while(*texto != '\0') {
+        ++tamanho;
+        ++texto;
+    }
+    return tamanho;
 }
