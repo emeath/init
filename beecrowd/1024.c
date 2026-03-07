@@ -17,7 +17,7 @@ Por exemplo, se a entrada for “Texto #3”, o primeiro processamento sobre est
 
 ## Entrada
 
-A entrada contém vários casos de teste. A primeira linha de cada caso de teste contém um inteiro N (1 ≤ N ≤ 1*104), indicando a quantidade de linhas que o problema deve tratar. As N linhas contém cada uma delas M (1 ≤ M ≤ 1*103) caracteres.
+A entrada contém vários casos de teste. A primeira linha de cada caso de teste contém um inteiro N (1 ≤ N ≤ 1*10^4), indicando a quantidade de linhas que o problema deve tratar. As N linhas contém cada uma delas M (1 ≤ M ≤ 1*10^3) caracteres.
 
 ## Saída
 
@@ -35,6 +35,7 @@ vv.xwfxo.fd
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h> 
 
 void primeiraEtapa(char *);
 void segundaEtapa(char *);
@@ -82,7 +83,7 @@ int main()
     #endif
 
     for(i=0;i<N;++i) {
-        char *palavra = (char *) malloc( (103 + 1) * sizeof(char) );
+        char *palavra = (char *) malloc( (pow(10,3) + 1) * sizeof(char) );
         *(lista + i) = palavra;
         #ifdef DEBUG
         printf("*palavra\n");
@@ -107,7 +108,7 @@ int main()
     // get all inputs
     char *getsReturn;
     for(i=0; i<N; ++i) {
-        getsReturn = fgets(*(lista + i),103+1, stdin);
+        getsReturn = fgets(*(lista + i), (pow(10,3) + 1), stdin);
         replaceNewLine(*(lista + i));
         if(getsReturn == NULL) {
             return -1;
@@ -129,6 +130,12 @@ int main()
         terceiraEtapa(toProcess);
         printf("%s\n", *(lista +i));
     }
+
+    // desalocar memoria
+    for(i=0;i<N;++i) {
+        free(*(lista+i));
+    }
+    free(lista);
 
     // for (size_t i = 0; i < N; i++)
     // {
@@ -187,7 +194,7 @@ void segundaEtapa(char *texto)
     char aux;
     // calcular tamanho da string
     size_t tamanhoString = calcularTamanhoString(texto);
-    printf(">>>%ld\n", tamanhoString);
+    // printf(">>>%ld\n", tamanhoString);
     size_t i;
     for(i=0; i < tamanhoString / 2; ++i) {
         aux = *(texto + tamanhoString - 1 - i);
@@ -200,9 +207,9 @@ void segundaEtapa(char *texto)
 void terceiraEtapa(char *texto) 
 {
     size_t tamanhoTexto = calcularTamanhoString(texto);
-    printf("%ld....\n",tamanhoTexto);
+    // printf("%ld....\n",tamanhoTexto);
     size_t metadeTexto = tamanhoTexto / 2;
-    printf("%ld .........\n",metadeTexto);
+    // printf("%ld .........\n",metadeTexto);
     size_t i;
     for(i=metadeTexto; i<tamanhoTexto; ++i)
         *(texto+i) = *(texto+i) - 1;
@@ -211,7 +218,6 @@ void terceiraEtapa(char *texto)
 size_t calcularTamanhoString(char *texto)
 {
     size_t tamanho = 0;
-    if ( '\0' == *texto) return 1;
     while(*texto != '\0') {
         ++tamanho;
         ++texto;
