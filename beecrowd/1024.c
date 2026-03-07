@@ -44,9 +44,11 @@ int isUpperCaseChar(char);
 size_t calcularTamanhoString(char *texto);
 void copiaString(char *, char *);
 void clearBuffer(void);
+void replaceNewLine(char *);
 
 int main()
 {
+    setbuf(stdout, NULL);
     // char x = ' ';
     // x++;
     // printf(".%d.\n", x);
@@ -64,28 +66,76 @@ int main()
     clearBuffer();
     
     
-    char *lista = (char *) malloc(N * (103 + 1) * sizeof(char));
+    char **lista = (char **) malloc(N * sizeof(char *));
     if (lista == NULL) {
         printf("Not enought memory available on heap!1\n");
         exit(1);
     }
 
+    #ifdef DEBUG
+    printf("**lista\n");
+    printf("&lista:  %p\n", &lista);
+    printf("lista:   %p\n", lista);
+    // printf("*lista:  %p\n", *lista);
+    // printf("**lista: %c\n\n", **lista);
+    printf("\n\n");
+    #endif
+
+    for(i=0;i<N;++i) {
+        char *palavra = (char *) malloc( (103 + 1) * sizeof(char) );
+        *(lista + i) = palavra;
+        #ifdef DEBUG
+        printf("*palavra\n");
+        printf("&palavra: %p\n", &palavra);
+        printf("palavra:  %p\n", palavra);
+        printf("*palavra: %c\n", *palavra);
+        for(size_t x=0;x<104;++x) {
+            printf("%c ", palavra[x]);
+        }
+        printf("\n");
+        #endif
+    }
+    
+    #ifdef DEBUG
+    printf("*array lista:\n");
+    for(i=0;i<N;++i) {
+        printf("%p    %p\n", (lista + i), *(lista + i) );
+    }
+    printf("\n");
+    #endif
+
     // get all inputs
     char *getsReturn;
     for(i=0; i<N; ++i) {
-        getsReturn = fgets(word,103+1,stdin);
+        getsReturn = fgets(*(lista + i),103+1, stdin);
+        replaceNewLine(*(lista + i));
         if(getsReturn == NULL) {
             return -1;
         }
-        lista[i] = getsReturn;
     }
 
-    for (size_t i = 0; i < N; i++)
+    #ifdef DEBUG
+    for(i=0; i<N; ++i) {
+        printf("%ld) %s\n", i, *(lista + i));
+    }
+    #endif
+
+    // process three steps and output one by one not in batch:
+    for(i=0;i<N;++i)
     {
-        printf("%ld) %s\n", i, lista[i]);
+        char *toProcess = *(lista + i);
+        primeiraEtapa(toProcess);
+        segundaEtapa(toProcess);
+        terceiraEtapa(toProcess);
+        printf("%s\n", *(lista +i));
     }
 
-    free(lista);
+    // for (size_t i = 0; i < N; i++)
+    // {
+    //     printf("%ld) %s\n", i, listaP[i]);
+    // }
+
+    // free(lista);
     
 
     //     printf(">>>%s<<<\n",word);
@@ -185,4 +235,11 @@ void clearBuffer(void) {
     do {
         c = getchar();
     } while (c != '\n' && c != EOF);
+}
+
+void replaceNewLine(char *string)
+{
+    size_t i = 0;
+    while(*(string + i) != '\n') ++i;
+    *(string + i) = '\0';
 }
