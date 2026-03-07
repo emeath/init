@@ -34,6 +34,7 @@ vv.xwfxo.fd
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void primeiraEtapa(char *);
 void segundaEtapa(char *);
@@ -41,20 +42,65 @@ void terceiraEtapa(char *);
 int isLowerCaseChar(char);
 int isUpperCaseChar(char);
 size_t calcularTamanhoString(char *texto);
+void copiaString(char *, char *);
+void clearBuffer(void);
 
 int main()
 {
-    // bee 1024
-    char a = 'b';
-    printf("%c %c %d %d\n", a, a+1, a, a+1);
-//    char txt[42] = {'a', 'b', 'c', '\0'};
-    char txt[64] = "Linkin Park";
-    printf("%s\n", txt);
-    primeiraEtapa(txt);
-    printf("%s\n", txt);
-    segundaEtapa(txt);
-    printf("%s\n", txt);
+    // char x = ' ';
+    // x++;
+    // printf(".%d.\n", x);
+    // return 0;
 
+    // bee 1024
+    // char a = 'b';
+    // printf("%c %c %d %d\n", a, a+1, a, a+1);
+//    char txt[42] = {'a', 'b', 'c', '\0'};
+    // char txt[64] = "Linkin Park";
+    // copiaString(txt, "Texto #3");
+    size_t N,i;
+    char word[103 + 1];
+    scanf("%ld", &N);
+    clearBuffer();
+    
+    
+    char *lista = (char *) malloc(N * (103 + 1) * sizeof(char));
+    if (lista == NULL) {
+        printf("Not enought memory available on heap!1\n");
+        exit(1);
+    }
+
+    // get all inputs
+    char *getsReturn;
+    for(i=0; i<N; ++i) {
+        getsReturn = fgets(word,103+1,stdin);
+        if(getsReturn == NULL) {
+            return -1;
+        }
+        lista[i] = getsReturn;
+    }
+
+    for (size_t i = 0; i < N; i++)
+    {
+        printf("%ld) %s\n", i, lista[i]);
+    }
+
+    free(lista);
+    
+
+    //     printf(">>>%s<<<\n",word);
+    //     primeiraEtapa(word);
+    //     segundaEtapa(word);
+    //     terceiraEtapa(word);
+    //     printf("%s\n", word);
+    // }
+    // printf("%s\n", txt);
+    // primeiraEtapa(txt);
+    // printf("%s\n", txt);
+    // segundaEtapa(txt);
+    // printf("%s\n", txt);
+    // terceiraEtapa(txt);
+    // printf("%s\n",txt);
     return 0;
 }
 
@@ -101,9 +147,15 @@ void segundaEtapa(char *texto)
     *(texto + tamanhoString) = '\0';    
 }
 
-void terceiraEtapa(char *) 
+void terceiraEtapa(char *texto) 
 {
-    // todo
+    size_t tamanhoTexto = calcularTamanhoString(texto);
+    printf("%ld....\n",tamanhoTexto);
+    size_t metadeTexto = tamanhoTexto / 2;
+    printf("%ld .........\n",metadeTexto);
+    size_t i;
+    for(i=metadeTexto; i<tamanhoTexto; ++i)
+        *(texto+i) = *(texto+i) - 1;
 }
 
 size_t calcularTamanhoString(char *texto)
@@ -115,4 +167,22 @@ size_t calcularTamanhoString(char *texto)
         ++texto;
     }
     return tamanho;
+}
+
+void copiaString(char *dest, char *org)
+{
+    size_t lengthDest = calcularTamanhoString(dest);
+    size_t o;
+    for(o=0;o<lengthDest;++o)
+    {
+        *(dest + o) = *(org + o);
+    }
+    *(dest + o) = '\0'; // ensure ends with null terminator
+}
+
+void clearBuffer(void) {
+    int c;
+    do {
+        c = getchar();
+    } while (c != '\n' && c != EOF);
 }
